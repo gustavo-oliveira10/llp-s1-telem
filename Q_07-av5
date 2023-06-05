@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <ctype.h>
+
+void substituirVogais(const char* nomeArquivo) {
+    FILE* arquivoEntrada = fopen(nomeArquivo, "r");
+    if (arquivoEntrada == NULL) {
+        printf("Não foi possível abrir o arquivo de entrada.\n");
+        return;
+    }
+
+    FILE* arquivoSaida = fopen("saida.txt", "w");
+    if (arquivoSaida == NULL) {
+        printf("Não foi possível criar o arquivo de saída.\n");
+        fclose(arquivoEntrada);
+        return;
+    }
+
+    char ch;
+    while ((ch = fgetc(arquivoEntrada)) != EOF) {
+        ch = tolower(ch); // Converte para minúscula
+        if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+            ch = '*';
+        }
+        fputc(ch, arquivoSaida);
+    }
+
+    fclose(arquivoEntrada);
+    fclose(arquivoSaida);
+
+    printf("Arquivo de saída criado com sucesso: saida.txt\n");
+}
+
+int main() {
+    char nomeArquivo[100];
+
+    printf("Digite o nome do arquivo de entrada: ");
+    scanf("%s", nomeArquivo);
+
+    substituirVogais(nomeArquivo);
+
+    return 0;
+}
